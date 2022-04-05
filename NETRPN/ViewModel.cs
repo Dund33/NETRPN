@@ -8,7 +8,7 @@ namespace NETRPN
     public class ViewModel : INotifyPropertyChanged
     {
         private readonly StringBuilder _x = new StringBuilder();
-        private readonly Stack<double> _stack = new Stack<double>();
+        private readonly InfiniteStack<double> _stack = new InfiniteStack<double>();
 
         public double X
         {
@@ -18,21 +18,21 @@ namespace NETRPN
         {
             get
             {
-                return _stack.ElementAtOrDefault(0);
+                return _stack[0];
             }
         }
         public double Z
         {
             get
             {
-                return _stack.ElementAtOrDefault(1);
+                return _stack[1];
             }
         }
         public double T
         {
             get
             {
-                return _stack.ElementAtOrDefault(2);
+                return _stack[2];
             }
         }
 
@@ -42,11 +42,6 @@ namespace NETRPN
         public string Ts => T.ToString();
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public ViewModel()
-        {
-            Enumerable.Repeat(0, 4).ToList().ForEach(x => _stack.Push(x));
-        }
 
         public void PushVal(double newVal)
         {

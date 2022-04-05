@@ -11,13 +11,13 @@ namespace NETRPN
     public sealed partial class MainPage : Page
     {
         private bool _displayingRes = false;
-        private MathOps _ops = new MathOps();
+        private readonly MathOps _ops = new MathOps();
 
         public ViewModel ViewModel { get; set; } = new ViewModel();
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             DataContext = ViewModel;
         }
 
