@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Text;
 
 namespace NETRPN
@@ -22,7 +23,11 @@ namespace NETRPN
 
         public double X
         {
-            get { return double.Parse(Xs); }
+            get
+            {
+                var fixedString = new string(Xs.ToCharArray().Where(k => char.IsDigit(k) || char.IsPunctuation(k)).ToArray());
+                return double.Parse(fixedString);
+            }
         }
         public double Y
         {
@@ -46,10 +51,10 @@ namespace NETRPN
             }
         }
 
-        public string Xs => _x.Length > 0 ? _x.ToString() : default(double).ToString();
-        public string Ys => Y.ToString();
-        public string Zs => Z.ToString();
-        public string Ts => T.ToString();
+        public string Xs => _x.Length > 0 ? $"X = {_x}" : $"X = {default(double)}";
+        public string Ys => $"Y = {Y}";
+        public string Zs => $"Z = {Z}";
+        public string Ts => $"T = {T}";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
