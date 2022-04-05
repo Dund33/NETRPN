@@ -12,7 +12,7 @@ namespace NETRPN
 
         public double X
         {
-            get { return double.Parse(_x.ToString()); }
+            get { return double.Parse(Xs); }
         }
         public double Y
         {
@@ -36,12 +36,17 @@ namespace NETRPN
             }
         }
 
-        public string Xs => _x.ToString();
+        public string Xs => _x.Length > 0 ? _x.ToString() : default(double).ToString();
         public string Ys => Y.ToString();
         public string Zs => Z.ToString();
         public string Ts => T.ToString();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ViewModel()
+        {
+            Enumerable.Repeat(0, 4).ToList().ForEach(x => _stack.Push(x));
+        }
 
         public void PushVal(double newVal)
         {
@@ -49,11 +54,17 @@ namespace NETRPN
             RefreshAll();
         }
 
+        public void PopVal()
+        {
+            _stack.Pop();
+            RefreshAll();
+        }
+
         public void PushX()
         {
             _stack.Push(X);
             _x.Clear();
-            RefreshX();
+            RefreshAll();
         }
 
         public void ClearX()

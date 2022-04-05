@@ -58,6 +58,7 @@ namespace NETRPN
                 else
                 {
                     var res = _ops.Eval(ViewModel.X, ViewModel.Y, content);
+                    ViewModel.PopVal();
                     ViewModel.ClearX();
                     ViewModel.Append(res.ToString());
                     _displayingRes = true;
