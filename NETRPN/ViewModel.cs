@@ -8,6 +8,18 @@ namespace NETRPN
         private readonly StringBuilder _x = new StringBuilder();
         private readonly InfiniteStack<double> _stack = new InfiniteStack<double>();
 
+        private bool _dotenable = true;
+        public bool DotEnable
+        {
+            get => _dotenable;
+
+            set
+            {
+                _dotenable = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DotEnable)));
+            }
+        }
+
         public double X
         {
             get { return double.Parse(Xs); }
@@ -64,6 +76,7 @@ namespace NETRPN
         {
             _x.Clear();
             RefreshX();
+            DotEnable = true;
         }
 
 
@@ -72,11 +85,14 @@ namespace NETRPN
             ClearX();
             _stack.Clear();
             RefreshAll();
+            DotEnable = true;
         }
 
         public void Append(string val)
         {
             _x.Append(val);
+            if (val == ".")
+                DotEnable = false;
             RefreshX();
         }
 
