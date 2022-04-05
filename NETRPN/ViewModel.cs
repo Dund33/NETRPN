@@ -1,41 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NETRPN
 {
-    public class ViewModel: INotifyPropertyChanged
+    public class ViewModel : INotifyPropertyChanged
     {
-        private double _x;
-        private Stack<double> _stack;
-        public double X { get => _x; set {
-                _x = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(X)));
-            }
+        private readonly StringBuilder _x = new StringBuilder();
+        private readonly Stack<double> _stack = new Stack<double>();
+
+        public double X
+        {
+            get { return double.Parse(_x.ToString()); }
         }
-        public double Y {
+        public double Y
+        {
             get
             {
                 return _stack.ElementAtOrDefault(0);
             }
         }
-        public double Z {
+        public double Z
+        {
             get
             {
                 return _stack.ElementAtOrDefault(1);
             }
         }
-        public double T {
+        public double T
+        {
             get
             {
                 return _stack.ElementAtOrDefault(2);
             }
         }
 
-        public string Xs => X.ToString();
+        public string Xs => _x.ToString();
         public string Ys => Y.ToString();
         public string Zs => Z.ToString();
         public string Ts => T.ToString();
@@ -45,10 +46,43 @@ namespace NETRPN
         public void PushVal(double newVal)
         {
             _stack.Push(newVal);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(X)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Y)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Z)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(T)));
+            RefreshAll();
+        }
+
+        public void PushX()
+        {
+            _stack.Push(X);
+            _x.Clear();
+            RefreshX();
+        }
+
+        public void ClearX()
+        {
+            _x.Clear();
+            RefreshX();
+        }
+
+
+        public void ClearAll()
+        {
+            ClearX();
+            _stack.Clear();
+            RefreshAll();
+        }
+
+        public void Append(string val)
+        {
+            _x.Append(val);
+            RefreshX();
+        }
+
+        private void RefreshX() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Xs)));
+        private void RefreshAll()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Xs)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Ys)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Zs)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Ts)));
         }
     }
 }

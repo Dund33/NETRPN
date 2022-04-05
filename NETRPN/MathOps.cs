@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NETRPN
 {
@@ -30,7 +26,7 @@ namespace NETRPN
                 return Math.Sqrt(arg1);
             }
 
-            if(arg2 is null)
+            if (arg2 is null)
                 throw new ArgumentException();
 
             if (function == "*")

@@ -129,7 +129,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MathOps.cs" />
-    <Compile Include="ObservableStringBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextBoxReg.cs" />
     <Compile Include="ViewModel.cs" />
