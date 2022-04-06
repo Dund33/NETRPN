@@ -55,9 +55,51 @@ namespace NETRPN
                     _displayingRes = false;
                     ViewModel.PushX();
                 }
+                else if(content == "X<=>Y")
+                {
+                    var oldX = ViewModel.X;
+                    ViewModel.X = ViewModel.Y;
+                    ViewModel.Y = oldX;
+                }
                 else
                 {
-                    var res = _ops.Eval(ViewModel.X, ViewModel.Y, content);
+                    MathOps.Operation func = MathOps.Operation.Noop;
+
+                    switch (content)
+                    {
+                        case "SIN":
+                            func = MathOps.Operation.Sin;
+                            break;
+                        case "COS":
+                            func = MathOps.Operation.Cos;
+                            break;
+                        case "TAN":
+                            func = MathOps.Operation.Tan;
+                            break;
+                        case "SQRT":
+                            func = MathOps.Operation.Sqrt;
+                            break;
+                        case "*":
+                            func = MathOps.Operation.Mult;
+                            break;
+                        case "/":
+                            func = MathOps.Operation.Div;
+                            break;
+                        case "+":
+                            func = MathOps.Operation.Add;
+                            break;
+                        case "-":
+                            func = MathOps.Operation.Sub;
+                            break;
+                        case "EXP":
+                            func = MathOps.Operation.Exp;
+                            break;
+                        case "LOG":
+                            func = MathOps.Operation.Log;
+                            break;
+                    }
+
+                    var res = _ops.Eval(ViewModel.X, ViewModel.Y, func);
                     ViewModel.PopVal();
                     ViewModel.ClearX();
                     ViewModel.Append(res.ToString());

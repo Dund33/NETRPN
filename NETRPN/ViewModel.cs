@@ -26,7 +26,14 @@ namespace NETRPN
             get
             {
                 var fixedString = new string(Xs.ToCharArray().Where(k => char.IsDigit(k) || char.IsPunctuation(k)).ToArray());
-                return double.Parse(fixedString);
+                var resultDouble = double.TryParse(fixedString, out var result) ? result : default;
+                return resultDouble;
+            }
+            set
+            {
+                _x.Clear(); 
+                _x.Append(value);
+                RefreshX();
             }
         }
         public double Y
@@ -34,6 +41,12 @@ namespace NETRPN
             get
             {
                 return _stack[0];
+            }
+            set
+            {
+                _stack.Pop();
+                _stack.Push(value);
+                RefreshY();
             }
         }
         public double Z
@@ -102,6 +115,7 @@ namespace NETRPN
         }
 
         private void RefreshX() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Xs)));
+        private void RefreshY() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Ys)));
         private void RefreshAll()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Xs)));
