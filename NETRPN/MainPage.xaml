@@ -8,6 +8,51 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Style x:Key="BorderHoverButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="RootBorder" 
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootBorder" 
+                                                                 Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="#3399CC"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <ContentPresenter x:Name="ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Margin="{TemplateBinding Padding}"
+                                    Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -31,40 +76,41 @@
             <ColumnDefinition Width="0.25*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="0" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="SQRT" Name="BtnSqrt" FontSize="38" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="1" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="*" Name="BtnMult" FontSize="38" Click="FuncPressedEventHandler"/>
-        <Button Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="/" Name="BtnDiv" FontSize="38" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="1" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="-" Name="BtnSub" FontSize="38" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="0" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="+" Name="BtnAdd" FontSize="38" Click="FuncPressedEventHandler" Grid.ColumnSpan="1"></Button>
+        <Button Grid.Column="0" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="SQRT" Name="BtnSqrt" FontSize="38" Click="FuncPressedEventHandler"
+        BorderThickness="1" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="1" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="*" Name="BtnMult" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
+        <Button Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="/" Name="BtnDiv" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="1" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="-" Name="BtnSub" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="0" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="+" Name="BtnAdd" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
 
-        <Button Grid.Column="0" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="SIN" Name="BtnSin" FontSize="38" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="1" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="COS" Name="BtnCos" FontSize="38" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="TAN" Name="BtnTan" FontSize="38" Click="FuncPressedEventHandler"></Button>
+        <Button Grid.Column="0" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="SIN" Name="BtnSin" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="1" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="COS" Name="BtnCos" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="TAN" Name="BtnTan" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
 
-        <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="EXP" Name="BtnExp" FontSize="38" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="2" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="X&lt;=&gt;Y" Name="BtnSwap" FontSize="38" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="LOG" Name="BtnLog" FontSize="38" Click="FuncPressedEventHandler"/>
+        <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="EXP" Name="BtnExp" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="2" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="X&lt;=&gt;Y" Name="BtnSwap" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="LOG" Name="BtnLog" FontSize="38" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
 
-        <Button Grid.Column="1" Grid.Row="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="0" FontSize="38" Click="DigitPressedEventHandler"/>
+        <Button Grid.Column="1" Grid.Row="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="0" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
 
-        <Button Grid.Column="0" Grid.Row="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="1" FontSize="38" Click="DigitPressedEventHandler"/>
-        <Button Grid.Column="1" Grid.Row="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="2" FontSize="38" Click="DigitPressedEventHandler"/>
-        <Button Grid.Column="2" Grid.Row="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="3" FontSize="38" Click="DigitPressedEventHandler"/>
+        <Button Grid.Column="0" Grid.Row="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="1" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
+        <Button Grid.Column="1" Grid.Row="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="2" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
+        <Button Grid.Column="2" Grid.Row="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="3" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
 
-        <Button Grid.Column="0" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="4" FontSize="38" Click="DigitPressedEventHandler"/>
-        <Button Grid.Column="1" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="5" FontSize="38" Click="DigitPressedEventHandler"></Button>
-        <Button Grid.Column="2" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="6" FontSize="38" Click="DigitPressedEventHandler"/>
+        <Button Grid.Column="0" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="4" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
+        <Button Grid.Column="1" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="5" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="2" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="6" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"/>
 
-        <Button Grid.Column="0" Grid.Row="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="7" FontSize="38" Click="DigitPressedEventHandler"></Button>
-        <Button Grid.Column="1" Grid.Row="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="8" FontSize="38" Click="DigitPressedEventHandler"></Button>
-        <Button Grid.Column="2" Grid.Row="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="9" FontSize="38" Click="DigitPressedEventHandler"></Button>
+        <Button Grid.Column="0" Grid.Row="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="7" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="1" Grid.Row="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="8" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="2" Grid.Row="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="9" FontSize="38" Click="DigitPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
 
 
-        <Button Grid.Column="0" Grid.Row="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="." FontSize="48" Click="DigitPressedEventHandler" IsEnabled="{Binding Path=DotEnable}"></Button>
-        <Button Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="ENTER" FontSize="48" Click="FuncPressedEventHandler"></Button>
+        <Button Grid.Column="0" Grid.Row="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="." FontSize="48" Click="DigitPressedEventHandler" IsEnabled="{Binding Path=DotEnable}" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="ENTER" FontSize="48" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
 
-        <Button Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="CLEAR X" FontSize="48" Click="FuncPressedEventHandler"></Button>
-        <Button Grid.Column="2" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="AC" FontSize="48" Click="FuncPressedEventHandler"></Button>
+        <Button Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="CLEAR X" FontSize="48" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
+        <Button Grid.Column="2" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="AC" FontSize="48" Click="FuncPressedEventHandler" Style="{StaticResource BorderHoverButtonStyle}"></Button>
 
         <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="White" Name="tTextBox" Foreground="Black" IsReadOnly="True" Text="{Binding Path=Ts}" FontSize="22"></TextBox>
         <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Background="White" Name="zTextBox" Foreground="Black" IsReadOnly="True" Text="{Binding Path=Zs}" FontSize="22"></TextBox>
