@@ -19,7 +19,7 @@ namespace NETRPN
             }
         }
 
-        private string CleanedXString => new string(_stack.Xs.ToCharArray().Where(k => char.IsDigit(k) || char.IsPunctuation(k)).ToArray());
+        private string CleanedXString => new string(_stack.Xs.ToCharArray().Where(k => char.IsDigit(k) && !char.IsPunctuation(k)).ToArray());
         public double X
         {
             get
