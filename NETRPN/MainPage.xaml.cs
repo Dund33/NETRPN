@@ -57,9 +57,7 @@ namespace NETRPN
                 }
                 else if(content == "X<=>Y")
                 {
-                    var oldX = ViewModel.X;
-                    ViewModel.X = ViewModel.Y;
-                    ViewModel.Y = oldX;
+                    ViewModel.SwapXY();
                 }
                 else
                 {

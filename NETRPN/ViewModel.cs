@@ -6,8 +6,7 @@ namespace NETRPN
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        private readonly StringBuilder _x = new StringBuilder();
-        private readonly InfiniteStack<double> _stack = new InfiniteStack<double>();
+        private readonly RPNMachine<double> _stack = new RPNMachine<double>();
 
         private bool _dotenable = true;
         public bool DotEnable
@@ -21,50 +20,12 @@ namespace NETRPN
             }
         }
 
-        public double X
-        {
-            get
-            {
-                var fixedString = new string(Xs.ToCharArray().Where(k => char.IsDigit(k) || char.IsPunctuation(k)).ToArray());
-                var resultDouble = double.TryParse(fixedString, out var result) ? result : default;
-                return resultDouble;
-            }
-            set
-            {
-                _x.Clear(); 
-                _x.Append(value);
-                RefreshX();
-            }
-        }
-        public double Y
-        {
-            get
-            {
-                return _stack[0];
-            }
-            set
-            {
-                _stack.Pop();
-                _stack.Push(value);
-                RefreshY();
-            }
-        }
-        public double Z
-        {
-            get
-            {
-                return _stack[1];
-            }
-        }
-        public double T
-        {
-            get
-            {
-                return _stack[2];
-            }
-        }
+        public double X => _stack.X;
+        public double Y => _stack.Y;
+        public double Z => _stack.Z;
+        public double T => _stack.T;
 
-        public string Xs => _x.Length > 0 ? $"X = {_x}" : $"X = {default(double)}";
+        public string Xs => $"X = {X}";
         public string Ys => $"Y = {Y}";
         public string Zs => $"Z = {Z}";
         public string Ts => $"T = {T}";
@@ -86,36 +47,39 @@ namespace NETRPN
         public void PushX()
         {
             _stack.Push(X);
-            _x.Clear();
+            _stack.ClearX();
             RefreshAll();
         }
 
         public void ClearX()
         {
-            _x.Clear();
+            _stack.ClearX();
             RefreshX();
             DotEnable = true;
         }
 
-
         public void ClearAll()
         {
-            ClearX();
-            _stack.Clear();
+            _stack.ClearAll();
             RefreshAll();
             DotEnable = true;
         }
 
         public void Append(string val)
         {
-            _x.Append(val);
+            _stack.AppendToX(val);
             if (val == ".")
                 DotEnable = false;
             RefreshX();
         }
 
+        public void SwapXY()
+        {
+            _stack.SwapXY();
+            RefreshAll();
+        }
+
         private void RefreshX() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Xs)));
-        private void RefreshY() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Ys)));
         private void RefreshAll()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Xs)));
