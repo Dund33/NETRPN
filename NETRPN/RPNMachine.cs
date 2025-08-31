@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 
 namespace NETRPN
@@ -13,11 +11,7 @@ namespace NETRPN
         private const int StackPosT = 2;
         private readonly Titem[] _stack = new Titem[StackDepth];
         private readonly StringBuilder _xStringBuilder = new StringBuilder();
-        public RPNMachine()
-        {
-           
-        }
-
+   
         public void AppendToX(string c)
         {
             _xStringBuilder.Append(c);
@@ -30,7 +24,7 @@ namespace NETRPN
 
         public void Push(Titem val)
         {
-            for(var i = StackDepth-1; i > 0; i--)
+            for (var i = StackDepth - 1; i > 0; i--)
             {
                 _stack[i] = _stack[i - 1];
             }
@@ -41,7 +35,7 @@ namespace NETRPN
         {
             var ret = _stack[0];
 
-            for(var i = 0; i < _stack.Length - 1; i++)
+            for (var i = 0; i < _stack.Length - 1; i++)
             {
                 _stack[i] = _stack[i + 1];
             }
@@ -65,31 +59,20 @@ namespace NETRPN
             ClearX();
         }
 
-        private string CleanedXString => new string(_xStringBuilder.ToString().ToCharArray().Where(k => char.IsDigit(k) || char.IsPunctuation(k)).ToArray());
-        public Titem X
-        {
-            get
+
+        public string Xs { 
+            get => _xStringBuilder.ToString();
+            set
             {
-                if(CleanedXString.Length == 0)
-                {
-                    return new Titem();
-                }
-                else
-                {
-                    return (Titem)TypeDescriptor.GetConverter(typeof(Titem)).ConvertFromString(CleanedXString);
-                }
+                _xStringBuilder.Clear();
+                _xStringBuilder.Append(value);
             }
         }
-        public Titem Y => _stack.ElementAtOrDefault(StackPosY);
+        public Titem Y { 
+            get => _stack.ElementAtOrDefault(StackPosY);
+            set => _stack[StackPosY] = value;
+        } 
         public Titem Z => _stack.ElementAtOrDefault(StackPosZ);
         public Titem T => _stack.ElementAtOrDefault(StackPosT);
-
-        public void SwapXY()
-        {
-            var valueY = _stack.ElementAtOrDefault(StackPosY).ToString();
-            _stack[StackPosY] = X;
-            _xStringBuilder.Clear();
-            _xStringBuilder.Append(valueY);
-        }
     }
 }

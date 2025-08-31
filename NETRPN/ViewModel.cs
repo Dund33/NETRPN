@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace NETRPN
 {
@@ -20,7 +19,22 @@ namespace NETRPN
             }
         }
 
-        public double X => _stack.X;
+        private string CleanedXString => new string(_stack.Xs.ToCharArray().Where(k => char.IsDigit(k) || char.IsPunctuation(k)).ToArray());
+        public double X
+        {
+            get
+            {
+                if (CleanedXString.Length == 0)
+                {
+                    return new double();
+                }
+                else
+                {
+                    return (double)TypeDescriptor.GetConverter(typeof(double)).ConvertFromString(CleanedXString);
+                }
+            }
+        }
+
         public double Y => _stack.Y;
         public double Z => _stack.Z;
         public double T => _stack.T;
@@ -75,7 +89,10 @@ namespace NETRPN
 
         public void SwapXY()
         {
-            _stack.SwapXY();
+            var x = X;
+            var y = _stack.Y;
+            _stack.Xs = y.ToString();
+            _stack.Y = x;
             RefreshAll();
         }
 
